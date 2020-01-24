@@ -1,0 +1,39 @@
+time = 0.5;
+timesteps = 100;
+C.q_0 = 1.60217653e-19; 
+C.m_0 = 9.10938215e-31;             % electron mass
+a = C.q_0/C.m_0;
+xPosition = zeros(timesteps,5);
+velocity = zeros(timesteps,5);
+a_actual = 0;
+scatter = rand(timesteps,5); 
+for i = 2:timesteps
+    
+    
+    if scatter(scatter(i,:)<0.95) < 0.95
+        a_actual = a + 0.2;
+        velocity(scatter(i,:)<0.95) = velocity((scatter(i,:)<0.95)) + a_actual*time;
+    end
+    if scatter(scatter>0.95) > 0.95
+        velocity(scatter(i,:)>0.95) = 0;
+    end
+    
+    xPosition(i,:) = xPosition(i-1,:) + velocity(i,:).*time;
+    
+    figure (1)
+    pause(0.5);
+    postime = subplot(2,1,1);
+    plot(xPosition(1:i,:));
+    title(num2str(velocity(i)));
+    xlabel("Time");
+    ylabel("X Position");
+    grid on;
+    
+    veltime = subplot(2,1,2);
+    plot(velocity(1:i,:));
+    xlabel("Time");
+    ylabel("Velocity");
+    grid on;
+
+    
+end
